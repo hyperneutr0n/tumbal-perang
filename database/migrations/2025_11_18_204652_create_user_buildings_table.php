@@ -22,10 +22,9 @@ return new class extends Migration {
 
             $table->timestamp('built_at');
             $table->integer('level')->default(1);
-            $table->timestamp('built_at');
             $table->timestamps();
 
-            $table->index(['user_id', 'building_type_id']);
+            $table->index(['user_id', 'building_id']);
         });
     }
 
