@@ -20,6 +20,7 @@ return new class extends Migration
             $table->rememberToken();
 
             $table->foreignId('tribe_id')
+                ->nullable()
                 ->constrained('tribes')
                 ->onDelete('restrict');
             $table->bigInteger('gold')->default(0);
