@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Hash;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -49,7 +50,7 @@ class SocialiteController extends Controller
                 $userData = [
                     'username' => $tempUsername,
                     'email' => $socialiteUser->getEmail(),
-                    'password' => bcrypt('oauth_' . $socialiteUser->getId()),
+                    'password' => Hash::make('oauth_' . $socialiteUser->getId()),
                     'gold' => 0,
                     'troops' => 0,
                 ];

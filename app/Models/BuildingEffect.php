@@ -33,7 +33,7 @@ class BuildingEffect extends Model
      */
     public function getTypedValueAttribute()
     {
-        return match($this->data_type) {
+        return match ($this->data_type) {
             'integer' => (int) $this->value,
             'float' => (float) $this->value,
             'boolean' => (bool) $this->value,

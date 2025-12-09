@@ -24,7 +24,7 @@ class GameSetting extends Model
      */
     public function getTypedValueAttribute()
     {
-        return match($this->data_type) {
+        return match ($this->data_type) {
             'integer' => (int) $this->value,
             'float' => (float) $this->value,
             'json' => json_decode($this->value, true),
@@ -37,7 +37,7 @@ class GameSetting extends Model
      */
     public function setTypedValue($value): void
     {
-        $this->value = match($this->data_type) {
+        $this->value = match ($this->data_type) {
             'json' => json_encode($value),
             default => (string) $value,
         };
