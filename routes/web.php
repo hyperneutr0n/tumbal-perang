@@ -27,4 +27,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/character/create', [CharacterController::class, 'create'])->name('character.create');
     Route::post('/character', [CharacterController::class, 'store'])->name('character.store');
+    Route::post('/add-gold', [DashboardController::class, 'addGold'])->name('add.gold');
 });
