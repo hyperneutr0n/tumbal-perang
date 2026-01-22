@@ -32,4 +32,12 @@ class Tribe extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    /**
+     * Get the character parts for this tribe.
+     */
+    public function characterParts(): HasMany
+    {
+        return $this->hasMany(CharacterPart::class);
+    }
 }

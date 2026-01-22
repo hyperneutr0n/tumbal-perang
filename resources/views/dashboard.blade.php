@@ -34,7 +34,50 @@
 
         <!-- Main Content -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 class="text-4xl font-bold text-gray-800">Dashboard</h1>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Character Appearance Section -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Character</h2>
+                        
+                        <!-- Character Background Placeholder -->
+                        <div class="relative bg-gradient-to-b from-blue-100 to-blue-50 rounded-lg p-4 min-h-[400px] flex items-center justify-center">
+                            <!-- Background placeholder - will contain tribe-specific background -->
+                            <div class="absolute inset-0 bg-center bg-cover bg-no-repeat rounded-lg opacity-20" 
+                                 style="background-image: url('/storage/assets/backgrounds/{{ optional(auth()->user()->tribe)->name ?? 'default' }}.png');">
+                            </div>
+                            
+                            <!-- Character Display Area -->
+                            <div class="relative z-10 flex flex-col items-center">
+                                <!-- Character parts will be layered here -->
+                                <div class="relative w-64 h-64 flex items-center justify-center">
+                                    <!-- Placeholder for character -->
+                                    <div class="text-center">
+                                        <div class="text-6xl mb-4">👤</div>
+                                        <p class="text-gray-600 text-sm">Character Preview</p>
+                                        <p class="text-gray-500 text-xs mt-2">
+                                            Tribe: {{ optional(auth()->user()->tribe)->name ?? 'None' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Character Info -->
+                        <div class="mt-4 space-y-2 text-sm text-gray-600">
+                            <p>✨ Customize your character appearance</p>
+                            <p>🎨 Parts reflect your tribe heritage</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Stats Section -->
+                <div class="lg:col-span-2">
+                    <h1 class="text-4xl font-bold text-gray-800 mb-6">Dashboard</h1>
+                    <!-- Additional dashboard content can go here -->
+                </div>
+            </div>
+            
             <script>
                 // Check for gold update every 30 seconds (backend handles 5-minute logic)
                 setInterval(async () => {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tribe;
+use App\Models\CharacterPart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,12 +30,22 @@ class CharacterController extends Controller
 
         $user = Auth::user();
         
-        // Update user with username, tribe, and starting resources
+        // Get default character parts for the selected tribe
+        $defaultParts = CharacterPart::where('tribe_id', $validated['tribe_id'])
+            ->where('is_default', true)
+            ->get()
+            ->keyBy('part_type');
+        
+        // Update user with username, tribe, starting resources, and default character parts
         $user->update([
             'username' => $validated['username'],
             'tribe_id' => $validated['tribe_id'],
             'gold' => 100,
             'troops' => 100,
+            'head_id' => $defaultParts->get('head')->id ?? null,
+            'body_id' => $defaultParts->get('body')->id ?? null,
+            'arm_id' => $defaultParts->get('arm')->id ?? null,
+            'leg_id' => $defaultParts->get('leg')->id ?? null,
         ]);
 
         return redirect()->route('dashboard');

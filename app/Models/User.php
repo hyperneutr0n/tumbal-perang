@@ -30,6 +30,10 @@ class User extends Authenticatable
         'troops',
         'google_id',
         'github_id',
+        'head_id',
+        'body_id',
+        'arm_id',
+        'leg_id',
     ];
 
     /**
@@ -92,6 +96,38 @@ class User extends Authenticatable
     public function userBuildings(): HasMany
     {
         return $this->hasMany(UserBuilding::class);
+    }
+
+    /**
+     * Get the user's head character part.
+     */
+    public function head(): BelongsTo
+    {
+        return $this->belongsTo(CharacterPart::class, 'head_id');
+    }
+
+    /**
+     * Get the user's body character part.
+     */
+    public function body(): BelongsTo
+    {
+        return $this->belongsTo(CharacterPart::class, 'body_id');
+    }
+
+    /**
+     * Get the user's arm character part.
+     */
+    public function arm(): BelongsTo
+    {
+        return $this->belongsTo(CharacterPart::class, 'arm_id');
+    }
+
+    /**
+     * Get the user's leg character part.
+     */
+    public function leg(): BelongsTo
+    {
+        return $this->belongsTo(CharacterPart::class, 'leg_id');
     }
 
     /**

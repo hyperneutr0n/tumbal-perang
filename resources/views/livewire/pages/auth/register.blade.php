@@ -32,7 +32,8 @@ new #[Layout('layouts.guest')] class extends Component
 
         Auth::login($user);
 
-        $this->redirect(route('dashboard', absolute: false), navigate: true);
+        // Redirect to character creation instead of dashboard
+        $this->redirect(route('character.create', absolute: false), navigate: true);
     }
 }; ?>
 
