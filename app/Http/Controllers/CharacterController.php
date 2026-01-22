@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CharacterController extends Controller
 {
+    public function getRandomTerrain() {
+        $terrain = Terrain::inRandomOrder()->first();
+        return response()->json(['terrain' => $terrain->name]);
+    }
+
     /**
      * Handle attack action
      */
@@ -20,7 +25,7 @@ class CharacterController extends Controller
     {
         $attacker = auth()->user()->load(['tribe.tribeStats.statType', 'userBuildings.building.buildingEffects']);
         $defender = User::with(['tribe.tribeStats.statType', 'userBuildings.building.buildingEffects'])->findOrFail($targetId);
-        $terrain = Terrain::inRandomOrder()->first();
+        $terrain = $request->terrain;
 
         $terrainBoost = [
             'range_attack' => 1, 
@@ -31,7 +36,7 @@ class CharacterController extends Controller
             'melee_defense' => 1
             ];
 
-        switch ($terrain->name) {
+        switch ($terrain) {
             case 'Plains':
                 $terrainBoost['melee_attack'] = 5;
                 $terrainBoost['melee_defense'] = 5;
@@ -98,7 +103,7 @@ class CharacterController extends Controller
             $attacker->save();
             $result['status'] = 'win';
             $result['stolen_gold'] = $stolenGold;
-            $result['terrain'] = $terrain->name;
+            $result['terrain'] = $terrain;
         } else {
             // Attacker loses: all attacker troops die, defender loses some troops
             $attacker->troops = 0;
@@ -111,15 +116,10 @@ class CharacterController extends Controller
             $defender->save();
             $result['status'] = 'lose';
             $result['defender_survivors'] = $survivors;
-            $result['terrain'] = $terrain->name;
+            $result['terrain'] = $terrain;
         }
 
-        // Return JSON if AJAX request
-        if ($request->ajax() || $request->wantsJson()) {
-            return response()->json($result);
-        }
-
-        return redirect()->route('attack.list')->with('attack_result', $result);
+        return response()->json($result);
     }
 
     /**
