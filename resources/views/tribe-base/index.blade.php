@@ -84,7 +84,9 @@
                         <div class="text-3xl font-bold text-green-900">
                             +{{ $userBuildings->sum(function($ub) {
                                 return $ub->building->buildingEffects
-                                    ->where('key', 'like', 'gold_production%')
+                                    ->filter(function($effect) {
+                                        return str_contains($effect->key, 'gold_production');
+                                    })
                                     ->sum('value');
                             }) }} /interval
                         </div>
@@ -94,7 +96,9 @@
                         <div class="text-3xl font-bold text-blue-900">
                             +{{ $userBuildings->sum(function($ub) {
                                 return $ub->building->buildingEffects
-                                    ->where('key', 'like', 'troops_production%')
+                                    ->filter(function($effect) {
+                                        return str_contains($effect->key, 'troops_production');
+                                    })
                                     ->sum('value');
                             }) }} /minute
                         </div>
