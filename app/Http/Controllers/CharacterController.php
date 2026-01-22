@@ -16,11 +16,20 @@ class CharacterController extends Controller
      */
     public function attackUser(Request $request, $targetId)
     {
-        $attacker = auth()->user();
-        $defender = \App\Models\User::with(['userBuildings.building.buildingEffects'])->findOrFail($targetId);
+        $attacker = auth()->user()->load(['tribe.tribeStats.statType', 'userBuildings.building.buildingEffects']);
+        $defender = \App\Models\User::with(['tribe.tribeStats.statType', 'userBuildings.building.buildingEffects'])->findOrFail($targetId);
 
-        // Calculate attack points (sum all building effects with key 'attack' for attacker)
+        // Calculate attack points from tribe stats (magic + range + melee attack)
         $attackPoints = 0;
+        if ($attacker->tribe) {
+            foreach ($attacker->tribe->tribeStats as $tribeStat) {
+                if ($tribeStat->statType->category === 'attack') {
+                    $attackPoints += $tribeStat->value;
+                }
+            }
+        }
+        
+        // Add building effects with key 'attack'
         foreach ($attacker->userBuildings as $userBuilding) {
             foreach ($userBuilding->building->buildingEffects as $effect) {
                 if (str_starts_with($effect->key, 'attack')) {
@@ -29,8 +38,17 @@ class CharacterController extends Controller
             }
         }
 
-        // Calculate defense points (sum all building effects with key 'defense' for defender)
+        // Calculate defense points from tribe stats (magic + range + melee defense)
         $defensePoints = 0;
+        if ($defender->tribe) {
+            foreach ($defender->tribe->tribeStats as $tribeStat) {
+                if ($tribeStat->statType->category === 'defense') {
+                    $defensePoints += $tribeStat->value;
+                }
+            }
+        }
+        
+        // Add building effects with key 'defense'
         foreach ($defender->userBuildings as $userBuilding) {
             foreach ($userBuilding->building->buildingEffects as $effect) {
                 if (str_starts_with($effect->key, 'defense')) {
@@ -110,6 +128,15 @@ class CharacterController extends Controller
             'success' => true,
             'gold' => $user->gold,
         ]);
+    }
+    
+    /**
+     * Show dictionary page with all tribe stats
+     */
+    public function dictionary()
+    {
+        $tribes = \App\Models\Tribe::with(['tribeStats.statType'])->get();
+        return view('dictionary', compact('tribes'));
     }
     
     /**

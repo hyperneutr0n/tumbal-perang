@@ -34,6 +34,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/farm-gold', [CharacterController::class, 'farmGold'])->name('farm.gold');
         Route::post('/farm-gold/farm', [CharacterController::class, 'farmAction'])->name('farm.action');
         
+        // Dictionary Routes
+        Route::get('/dictionary', [CharacterController::class, 'dictionary'])->name('dictionary');
+        
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/character/create', [CharacterController::class, 'create'])->name('character.create');
     Route::post('/character', [CharacterController::class, 'store'])->name('character.store');
