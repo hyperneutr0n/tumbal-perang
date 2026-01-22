@@ -73,7 +73,7 @@
               <!-- Troops -->
               <div class="border-b pb-3">
                 <p class="text-gray-600 text-sm">Troops</p>
-                <p class="text-xl font-semibold text-gray-800" id="troops ">{{ auth()->user()->troops ?? 0 }}</p>
+                <p class="text-xl font-semibold text-gray-800" id="troops">{{ auth()->user()->troops ?? 0 }}</p>
               </div>
             </div>
 
@@ -107,7 +107,7 @@
           } catch (error) {
             console.error('Error adding gold:', error);
           }
-        }, 30000);
+        }, 30 * 1000);
 
         // Check for troops update every second (for testing)
         setInterval(async () => {
@@ -127,7 +127,7 @@
           } catch (error) {
             console.error('Error adding troops:', error);
           }
-        }, 1000);
+        }, 30 * 1000);
       </script>
     </div>
   </div>

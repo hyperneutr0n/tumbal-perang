@@ -44,6 +44,7 @@ class CharacterController extends Controller
             'tribe_id' => $validated['tribe_id'],
             'gold' => 100,
             'last_gold_update' => now(),
+            'last_troop_update' => now(),
             'troops' => 100,
             'head_id' => $defaultParts->get('head')->id ?? null,
             'body_id' => $defaultParts->get('body')->id ?? null,
@@ -67,7 +68,7 @@ class CharacterController extends Controller
         // Get base gold increment from game settings
         $increment = (int) GameSetting::where('key', '=', 'default_gold_per_minute')
             ->first()->value;
-
+        $increment+=1000;
         // Add gold from user's buildings
         $userBuildings = $user->userBuildings()->with('building.buildingEffects')->get();
 
@@ -85,7 +86,7 @@ class CharacterController extends Controller
         }
 
         // Only add gold if 5 minutes have passed or if this is the first update
-        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 1) {
+        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 5 * 60) {
             $user->increment('gold', $increment);
             $user->last_gold_update = $currentTime;
             $user->save();
@@ -125,9 +126,9 @@ class CharacterController extends Controller
                 $increment += $troopEffect->typed_value;
             }
         }
-
+        
         // Only add troops if 1 second has passed or if this is the first update (for testing)
-        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 1) {
+        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 5 * 60) {
             $user->increment('troops', $increment);
             $user->last_troop_update = $currentTime;
             $user->save();

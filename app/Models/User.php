@@ -57,6 +57,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'last_gold_update' => 'datetime',
+            'last_troop_update' => 'datetime',
             'password' => 'hashed',
             'tribe_id' => 'integer',
             'gold' => 'integer',
