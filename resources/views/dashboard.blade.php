@@ -107,7 +107,7 @@
           } catch (error) {
             console.error('Error adding gold:', error);
           }
-        }, 1000);
+        }, 30000);
       </script>
     </div>
   </div>

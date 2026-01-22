@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GameSetting;
 use App\Models\Tribe;
 use App\Models\CharacterPart;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,21 +64,42 @@ class CharacterController extends Controller
         $lastUpdate = $user->last_gold_update;
         $currentTime = now();
 
+        // Get base gold increment from game settings
+        $increment = (int) GameSetting::where('key', '=', 'default_gold_per_minute')
+            ->first()->value;
+
+        // Add gold from user's buildings
+        $userBuildings = $user->userBuildings()->with('building.buildingEffects')->get();
+
+        foreach ($userBuildings as $userBuilding) {
+            // Find gold generation effect for this building
+            $goldEffect = $userBuilding->building->buildingEffects
+                ->filter(function ($effect) {
+                    return str_starts_with($effect->key, 'gold_production');
+                })
+                ->first();
+
+            if ($goldEffect) {
+                $increment += $goldEffect->typed_value;
+            }
+        }
+
         // Only add gold if 5 minutes have passed or if this is the first update
-        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 1) {
-            $user->increment('gold', 5);
+        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 300) {
+            $user->increment('gold', $increment);
             $user->last_gold_update = $currentTime;
             $user->save();
 
             return response()->json([
                 'success' => true,
-                'gold' => $user->gold
+                'gold' => $user->gold,
+                'increment' => $increment
             ]);
         }
 
         return response()->json([
             'success' => false,
-            'gold' => $user->gold
+            'gold' => $user->gold,
         ]);
     }
 }

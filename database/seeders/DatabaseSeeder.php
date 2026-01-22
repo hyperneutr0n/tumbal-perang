@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             TribeSeeder::class,
             CharacterPartSeeder::class,
             BuildingSeeder::class,
+            GameSettingSeeder::class,
         ]);
     }
 }
