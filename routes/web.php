@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/character/create', [CharacterController::class, 'create'])->name('character.create');
     Route::post('/character', [CharacterController::class, 'store'])->name('character.store');
     Route::post('/add-gold', [CharacterController::class, 'addGold'])->name('add.gold');
+    Route::post('/add-troops', [CharacterController::class, 'addTroops'])->name('add.troops');
     
     // Store Routes
     Route::get('/store', [StoreController::class, 'index'])->name('store.index');

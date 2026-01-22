@@ -19,5 +19,6 @@ class GameSettingSeeder extends Seeder
             'value' => '5',
             'data_type' => 'integer'
         ]);
+        
     }
 }

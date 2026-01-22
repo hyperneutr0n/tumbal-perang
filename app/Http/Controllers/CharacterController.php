@@ -85,7 +85,7 @@ class CharacterController extends Controller
         }
 
         // Only add gold if 5 minutes have passed or if this is the first update
-        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 300) {
+        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 1) {
             $user->increment('gold', $increment);
             $user->last_gold_update = $currentTime;
             $user->save();
@@ -100,6 +100,48 @@ class CharacterController extends Controller
         return response()->json([
             'success' => false,
             'gold' => $user->gold,
+        ]);
+    }
+
+    public function addTroops(Request $request)
+    {
+        $user = auth()->user();
+
+        $lastUpdate = $user->last_troop_update;
+        $increment = 0;
+        $currentTime = now();
+
+        // Add troop from user's buildings
+        $userBuildings = $user->userBuildings()->with('building.buildingEffects')->get();
+
+        foreach ($userBuildings as $userBuilding) {
+            // Find all troop generation effects for this building
+            $troopEffects = $userBuilding->building->buildingEffects
+                ->filter(function ($effect) {
+                    return str_starts_with($effect->key, 'troops_production');
+                });
+
+            foreach ($troopEffects as $troopEffect) {
+                $increment += $troopEffect->typed_value;
+            }
+        }
+
+        // Only add troops if 1 second has passed or if this is the first update (for testing)
+        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 1) {
+            $user->increment('troops', $increment);
+            $user->last_troop_update = $currentTime;
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'troops' => $user->troops,
+                'increment' => $increment
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'troops' => $user->troops,
         ]);
     }
 }

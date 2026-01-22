@@ -73,7 +73,7 @@
               <!-- Troops -->
               <div class="border-b pb-3">
                 <p class="text-gray-600 text-sm">Troops</p>
-                <p class="text-xl font-semibold text-gray-800">{{ auth()->user()->troops ?? 0 }}</p>
+                <p class="text-xl font-semibold text-gray-800" id="troops ">{{ auth()->user()->troops ?? 0 }}</p>
               </div>
             </div>
 
@@ -108,6 +108,26 @@
             console.error('Error adding gold:', error);
           }
         }, 30000);
+
+        // Check for troops update every second (for testing)
+        setInterval(async () => {
+          try {
+            const response = await fetch('{{ route('add.troops') }}', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+              }
+            });
+
+            const data = await response.json();
+            if (data.success) {
+              document.querySelectorAll('#troops').forEach(el => el.textContent = data.troops);
+            }
+          } catch (error) {
+            console.error('Error adding troops:', error);
+          }
+        }, 1000);
       </script>
     </div>
   </div>
