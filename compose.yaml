@@ -1,0 +1,32 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /app/vendor
+      - database_volume:/app/database
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - DB_CONNECTION=sqlite
+      - DB_DATABASE=/app/database/database.sqlite
+    networks:
+      - laravel
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    env_file:
+      - .env.production
+    command: tunnel --no-autoupdate run
+    restart: unless-stopped
+    depends_on:
+      - app
+    networks:
+      - laravel
+
+volumes:
+  database_volume:
+
+networks:
+  laravel:
