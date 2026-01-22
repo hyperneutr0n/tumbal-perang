@@ -48,19 +48,20 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($targets as $target)
-                    <div class="bg-white rounded-lg shadow-md p-6 flex flex-col">
+                    <div class="bg-white rounded-lg shadow-md p-6 flex flex-col" id="target-card-{{ $target->id }}">
                         <div class="mb-4">
                             <div class="text-xl font-bold mb-2 text-gray-800">{{ $target->username }}</div>
                             <div class="text-gray-600 text-sm">Tribe: {{ optional($target->tribe)->name ?? '-' }}</div>
                             <div class="text-gray-600 text-sm mt-1">💰 Gold: {{ $target->gold }}</div>
                             <div class="text-gray-600 text-sm">⚔️ Troops: {{ $target->troops }}</div>
                         </div>
-                        <form method="POST" action="{{ route('attack.user', $target->id) }}" class="mt-auto">
-                            @csrf
-                            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-3 rounded-lg transition duration-200">
-                                ⚔️ Attack
-                            </button>
-                        </form>
+                        <button 
+                            onclick="attackTarget({{ $target->id }}, '{{ $target->username }}')" 
+                            id="attack-btn-{{ $target->id }}"
+                            class="w-full bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-3 rounded-lg transition duration-200">
+                            ⚔️ Attack
+                        </button>
+                        <div id="result-{{ $target->id }}" class="mt-3 hidden"></div>
                     </div>
                 @empty
                     <div class="col-span-full text-center py-12">
@@ -71,6 +72,70 @@
             </div>
         </div>
     </div>
+
+    <script>
+        async function attackTarget(targetId, targetName) {
+            const btn = document.getElementById('attack-btn-' + targetId);
+            const resultDiv = document.getElementById('result-' + targetId);
+            
+            // Disable button
+            btn.disabled = true;
+            btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+            btn.classList.remove('bg-red-600', 'hover:bg-red-700');
+            
+            // Get random terrain first (simulating backend selection)
+            const terrains = ['Plains', 'Forest', 'Mountains'];
+            const randomTerrain = terrains[Math.floor(Math.random() * terrains.length)];
+            
+            // Countdown
+            for (let i = 3; i > 0; i--) {
+                btn.textContent = `Attacking in ${randomTerrain} in ${i}...`;
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            
+            btn.textContent = 'Attacking...';
+            
+            try {
+                const response = await fetch('{{ url("/attack") }}/' + targetId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                // Show result
+                resultDiv.classList.remove('hidden');
+                if (data.status === 'win') {
+                    resultDiv.className = 'mt-3 p-3 rounded bg-green-100 text-green-800 text-sm';
+                    resultDiv.innerHTML = `<strong>Victory!</strong><br>Terrain: ${data.terrain}<br>Stole ${data.stolen_gold} gold!`;
+                    btn.textContent = '✓ Victory!';
+                    btn.classList.add('bg-green-600');
+                } else {
+                    resultDiv.className = 'mt-3 p-3 rounded bg-red-100 text-red-800 text-sm';
+                    resultDiv.innerHTML = `<strong>Defeat!</strong><br>Terrain: ${data.terrain}<br>All troops lost!`;
+                    btn.textContent = '✗ Defeated';
+                    btn.classList.add('bg-red-800');
+                }
+                
+                // Reload page after 3 seconds
+                setTimeout(() => location.reload(), 3000);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.classList.remove('hidden');
+                resultDiv.className = 'mt-3 p-3 rounded bg-red-100 text-red-800 text-sm';
+                resultDiv.textContent = 'Attack failed!';
+                btn.disabled = false;
+                btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                btn.classList.add('bg-red-600', 'hover:bg-red-700');
+                btn.textContent = '⚔️ Attack';
+            }
+        }
+    </script>
 </body>
 
 </html>

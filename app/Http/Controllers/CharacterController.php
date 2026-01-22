@@ -98,6 +98,7 @@ class CharacterController extends Controller
             $attacker->save();
             $result['status'] = 'win';
             $result['stolen_gold'] = $stolenGold;
+            $result['terrain'] = $terrain->name;
         } else {
             // Attacker loses: all attacker troops die, defender loses some troops
             $attacker->troops = 0;
@@ -110,6 +111,12 @@ class CharacterController extends Controller
             $defender->save();
             $result['status'] = 'lose';
             $result['defender_survivors'] = $survivors;
+            $result['terrain'] = $terrain->name;
+        }
+
+        // Return JSON if AJAX request
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json($result);
         }
 
         return redirect()->route('attack.list')->with('attack_result', $result);
