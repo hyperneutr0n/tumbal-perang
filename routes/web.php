@@ -26,6 +26,14 @@ Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']
 
 // Protected Routes (require authentication)
 Route::middleware('auth')->group(function () {
+        // Attack Routes
+        Route::get('/attack', [CharacterController::class, 'attackList'])->name('attack.list');
+        Route::post('/attack/{target}', [CharacterController::class, 'attackUser'])->name('attack.user');
+        
+        // Farm Gold Routes
+        Route::get('/farm-gold', [CharacterController::class, 'farmGold'])->name('farm.gold');
+        Route::post('/farm-gold/farm', [CharacterController::class, 'farmAction'])->name('farm.action');
+        
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/character/create', [CharacterController::class, 'create'])->name('character.create');
     Route::post('/character', [CharacterController::class, 'store'])->name('character.store');

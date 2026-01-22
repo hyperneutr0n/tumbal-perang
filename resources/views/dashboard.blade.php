@@ -19,6 +19,8 @@
             <a href="{{ route('dashboard') }}" class="text-blue-600 hover:text-blue-800 font-semibold">Dashboard</a>
             <a href="{{ route('store.index') }}" class="text-blue-600 hover:text-blue-800">🏪 Store</a>
             <a href="{{ route('tribe-base.index') }}" class="text-blue-600 hover:text-blue-800">🏰 Tribe Base</a>
+            <a href="{{ route('attack.list') }}" class="text-blue-600 hover:text-blue-800">⚔️ Attack</a>
+            <a href="{{ route('farm.gold') }}" class="text-blue-600 hover:text-blue-800">💰 Farm Gold</a>
           </div>
 
         </div>
@@ -79,10 +81,10 @@
 
             <!-- Attack Button -->
             <div class="mt-8">
-              <button
-                class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-lg text-xl transition duration-200 shadow-lg hover:shadow-xl">
+              <a href="{{ route('attack.list') }}"
+                class="w-full block text-center bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-lg text-xl transition duration-200 shadow-lg hover:shadow-xl">
                 ATTACK
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -107,7 +109,7 @@
           } catch (error) {
             console.error('Error adding gold:', error);
           }
-        }, 30 * 1000);
+        },5 * 1000);
 
         // Check for troops update every second (for testing)
         setInterval(async () => {
@@ -127,7 +129,7 @@
           } catch (error) {
             console.error('Error adding troops:', error);
           }
-        }, 30 * 1000);
+        }, 5 * 1000);
       </script>
     </div>
   </div>
