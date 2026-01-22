@@ -27,6 +27,7 @@ class User extends Authenticatable
         'password',
         'tribe_id',
         'gold',
+        'last_gold_update',
         'troops',
         'google_id',
         'github_id',
@@ -55,6 +56,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'last_gold_update' => 'datetime',
             'password' => 'hashed',
             'tribe_id' => 'integer',
             'gold' => 'integer',

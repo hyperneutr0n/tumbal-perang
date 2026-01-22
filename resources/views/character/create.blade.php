@@ -6,7 +6,7 @@
     <title>Create Character - Tumbal Perang</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-purple-900 to-indigo-900 min-h-screen">
+<body class="bg-gray-900 min-h-screen">
     <div class="flex items-center justify-center min-h-screen px-4 py-8">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl p-8">
             <h1 class="text-3xl font-bold text-center mb-2 text-gray-800">Welcome to Tumbal Perang</h1>

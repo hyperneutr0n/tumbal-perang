@@ -9,7 +9,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TribeBaseController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('dashboard');
 })->name('home');
 
 // Authentication Routes

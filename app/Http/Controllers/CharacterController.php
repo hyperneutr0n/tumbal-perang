@@ -29,18 +29,19 @@ class CharacterController extends Controller
         ]);
 
         $user = Auth::user();
-        
+
         // Get default character parts for the selected tribe
         $defaultParts = CharacterPart::where('tribe_id', $validated['tribe_id'])
             ->where('is_default', true)
             ->get()
             ->keyBy('part_type');
-        
+
         // Update user with username, tribe, starting resources, and default character parts
         $user->update([
             'username' => $validated['username'],
             'tribe_id' => $validated['tribe_id'],
             'gold' => 100,
+            'last_gold_update' => now(),
             'troops' => 100,
             'head_id' => $defaultParts->get('head')->id ?? null,
             'body_id' => $defaultParts->get('body')->id ?? null,
@@ -57,19 +58,24 @@ class CharacterController extends Controller
     public function addGold(Request $request)
     {
         $user = auth()->user();
-        
-        // Check if 5 minutes have passed since last gold update using session
-        $lastUpdate = session('last_gold_update');
+
+        $lastUpdate = $user->last_gold_update;
         $currentTime = now();
-        
+
         // Only add gold if 5 minutes have passed or if this is the first update
-        if (!$lastUpdate || $currentTime->diffInMinutes($lastUpdate) >= 5) {
+        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 1) {
             $user->increment('gold', 5);
-            session(['last_gold_update' => $currentTime]);
+            $user->last_gold_update = $currentTime;
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'gold' => $user->gold
+            ]);
         }
-        
+
         return response()->json([
-            'success' => true,
+            'success' => false,
             'gold' => $user->gold
         ]);
     }

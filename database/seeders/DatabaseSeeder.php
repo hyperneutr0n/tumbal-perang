@@ -13,7 +13,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            TribeSeeder::class
+            TribeSeeder::class,
+            CharacterPartSeeder::class,
+            BuildingSeeder::class,
         ]);
     }
 }
