@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Appearance System - Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-4xl font-bold text-gray-800 mb-2">Character Appearance System</h1>
+        <p class="text-gray-600 mb-8">Visual preview of the implemented system</p>
+
+        <!-- System Overview -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-bold mb-4">System Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="border rounded p-4">
+                    <h3 class="font-semibold mb-2">✅ Implemented Features</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>✓ Character parts table (head, body, arm, leg)</li>
+                        <li>✓ User-part relationships</li>
+                        <li>✓ Tribe-specific default parts</li>
+                        <li>✓ Dashboard character display area</li>
+                        <li>✓ Background placeholders</li>
+                        <li>✓ Asset folder structure</li>
+                        <li>✓ Auto-assignment on registration</li>
+                    </ul>
+                </div>
+                <div class="border rounded p-4">
+                    <h3 class="font-semibold mb-2">📊 Database Structure</h3>
+                    <ul class="text-sm space-y-1">
+                        <li>• character_parts (id, tribe_id, part_type, name, image_path, is_default)</li>
+                        <li>• users (+ head_id, body_id, arm_id, leg_id)</li>
+                        <li>• 4 parts per tribe × 4 tribes = 16 default parts</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tribe Breakdown -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-bold mb-4">Tribe Character Parts</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Marksman -->
+                <div class="border rounded-lg p-4 bg-blue-50">
+                    <h3 class="font-bold text-blue-800 mb-3">Marksman</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-blue-400 rounded"></div>
+                            <span>Head Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-blue-400 rounded"></div>
+                            <span>Body Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-blue-400 rounded"></div>
+                            <span>Arm Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-blue-400 rounded"></div>
+                            <span>Leg Default</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tank -->
+                <div class="border rounded-lg p-4 bg-gray-50">
+                    <h3 class="font-bold text-gray-800 mb-3">Tank</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-gray-400 rounded"></div>
+                            <span>Head Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-gray-400 rounded"></div>
+                            <span>Body Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-gray-400 rounded"></div>
+                            <span>Arm Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-gray-400 rounded"></div>
+                            <span>Leg Default</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mage -->
+                <div class="border rounded-lg p-4 bg-purple-50">
+                    <h3 class="font-bold text-purple-800 mb-3">Mage</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-purple-400 rounded"></div>
+                            <span>Head Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-purple-400 rounded"></div>
+                            <span>Body Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-purple-400 rounded"></div>
+                            <span>Arm Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-purple-400 rounded"></div>
+                            <span>Leg Default</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Warrior -->
+                <div class="border rounded-lg p-4 bg-red-50">
+                    <h3 class="font-bold text-red-800 mb-3">Warrior</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-red-400 rounded"></div>
+                            <span>Head Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-red-400 rounded"></div>
+                            <span>Body Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-red-400 rounded"></div>
+                            <span>Arm Default</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-red-400 rounded"></div>
+                            <span>Leg Default</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Asset Structure -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-bold mb-4">Asset Folder Structure</h2>
+            <div class="bg-gray-900 text-green-400 p-4 rounded font-mono text-sm overflow-x-auto">
+<pre>public/storage/assets/
+├── backgrounds/
+│   ├── Marksman.png  ✅
+│   ├── Tank.png      ✅
+│   ├── Mage.png      ✅
+│   └── Warrior.png   ✅
+├── marksman/
+│   ├── head_default.png  ✅
+│   ├── body_default.png  ✅
+│   ├── arm_default.png   ✅
+│   └── leg_default.png   ✅
+├── tank/           (same structure ✅)
+├── mage/           (same structure ✅)
+└── warrior/        (same structure ✅)</pre>
+            </div>
+        </div>
+
+        <!-- Dashboard Preview -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-bold mb-4">Dashboard Character Section (Preview)</h2>
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                <div class="bg-gradient-to-b from-blue-100 to-blue-50 rounded-lg p-4 min-h-[300px] flex items-center justify-center relative">
+                    <div class="absolute inset-0 bg-center bg-cover bg-no-repeat rounded-lg opacity-20" 
+                         style="background-color: #64b5f6;">
+                    </div>
+                    <div class="relative z-10 text-center">
+                        <div class="text-6xl mb-4">👤</div>
+                        <p class="text-gray-600">Character Preview</p>
+                        <p class="text-gray-500 text-sm mt-2">Tribe: Marksman</p>
+                    </div>
+                </div>
+                <div class="mt-4 text-sm text-gray-600">
+                    <p>✨ Customize your character appearance</p>
+                    <p>🎨 Parts reflect your tribe heritage</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flow Diagram -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-bold mb-4">Registration Flow</h2>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 p-4 bg-blue-50 rounded">
+                <div class="text-center">
+                    <div class="bg-blue-500 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">1</div>
+                    <p class="font-semibold">Register</p>
+                    <p class="text-sm text-gray-600">Create account</p>
+                </div>
+                <div class="text-2xl">→</div>
+                <div class="text-center">
+                    <div class="bg-blue-500 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">2</div>
+                    <p class="font-semibold">Choose Tribe</p>
+                    <p class="text-sm text-gray-600">Select character type</p>
+                </div>
+                <div class="text-2xl">→</div>
+                <div class="text-center">
+                    <div class="bg-blue-500 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">3</div>
+                    <p class="font-semibold">Get Parts</p>
+                    <p class="text-sm text-gray-600">Auto-assigned defaults</p>
+                </div>
+                <div class="text-2xl">→</div>
+                <div class="text-center">
+                    <div class="bg-green-500 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">✓</div>
+                    <p class="font-semibold">Dashboard</p>
+                    <p class="text-sm text-gray-600">See your character</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 text-center text-gray-600 text-sm">
+            <p>Implementation Date: January 22, 2026</p>
+            <p>Status: ✅ Complete and Ready for Asset Replacement</p>
+        </div>
+    </div>
+</body>
+</html>
