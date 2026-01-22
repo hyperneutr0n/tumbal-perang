@@ -13,6 +13,11 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                 <div class="flex items-center gap-8">
                     <h1 class="text-2xl font-bold text-gray-800">Tumbal Perang</h1>
+                    <div class="flex gap-6">
+                        <a href="{{ route('dashboard') }}" class="text-blue-600 hover:text-blue-800 font-semibold">Dashboard</a>
+                        <a href="{{ route('store.index') }}" class="text-blue-600 hover:text-blue-800">🏪 Store</a>
+                        <a href="{{ route('tribe-base.index') }}" class="text-blue-600 hover:text-blue-800">🏰 Tribe Base</a>
+                    </div>
                     <div class="flex flex-col text-sm text-gray-700">
                         <span>👤 Username: <span id="username">{{ auth()->user()->username }}</span></span>
                         <span>🏹 Tribe: <span id="tribe">{{ optional(auth()->user()->tribe)->name ?? 'None' }}</span></span>
@@ -31,7 +36,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <h1 class="text-4xl font-bold text-gray-800">Dashboard</h1>
             <script>
-                // Add 5 gold per second to database
+                // Check for gold update every 30 seconds (backend handles 5-minute logic)
                 setInterval(async () => {
                     try {
                         const response = await fetch('{{ route('add.gold') }}', {
@@ -49,7 +54,7 @@
                     } catch (error) {
                         console.error('Error adding gold:', error);
                     }
-                }, 1000);
+                }, 30000);
             </script>
         </div>
     </div>

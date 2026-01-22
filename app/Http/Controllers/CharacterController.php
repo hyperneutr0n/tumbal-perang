@@ -39,4 +39,27 @@ class CharacterController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+    /**
+     * Add gold to the authenticated user (5 gold every 5 minutes)
+     */
+    public function addGold(Request $request)
+    {
+        $user = auth()->user();
+        
+        // Check if 5 minutes have passed since last gold update using session
+        $lastUpdate = session('last_gold_update');
+        $currentTime = now();
+        
+        // Only add gold if 5 minutes have passed or if this is the first update
+        if (!$lastUpdate || $currentTime->diffInMinutes($lastUpdate) >= 5) {
+            $user->increment('gold', 5);
+            session(['last_gold_update' => $currentTime]);
+        }
+        
+        return response()->json([
+            'success' => true,
+            'gold' => $user->gold
+        ]);
+    }
 }
