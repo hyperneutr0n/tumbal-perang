@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\GameSetting;
+use App\Models\Terrain;
 use App\Models\Tribe;
 use App\Models\CharacterPart;
+use App\Models\User;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,14 +19,39 @@ class CharacterController extends Controller
     public function attackUser(Request $request, $targetId)
     {
         $attacker = auth()->user()->load(['tribe.tribeStats.statType', 'userBuildings.building.buildingEffects']);
-        $defender = \App\Models\User::with(['tribe.tribeStats.statType', 'userBuildings.building.buildingEffects'])->findOrFail($targetId);
+        $defender = User::with(['tribe.tribeStats.statType', 'userBuildings.building.buildingEffects'])->findOrFail($targetId);
+        $terrain = Terrain::inRandomOrder()->first();
+
+        $terrainBoost = [
+            'range_attack' => 1, 
+            'magic_attack' => 1, 
+            'melee_attack' => 1,
+            'range_defense' => 1, 
+            'magic_defense' => 1, 
+            'melee_defense' => 1
+            ];
+
+        switch ($terrain->name) {
+            case 'Plains':
+                $terrainBoost['melee_attack'] = 5;
+                $terrainBoost['melee_defense'] = 5;
+                break;
+            case 'Forest':
+                $terrainBoost['magic_attack'] = 5;
+                $terrainBoost['magic_defense'] = 5;
+                break;
+            case 'Mountains':
+                $terrainBoost['range_attack'] = 5;
+                $terrainBoost['range_defense'] = 5;
+                break;
+        }
 
         // Calculate attack points from tribe stats (magic + range + melee attack)
         $attackPoints = 0;
         if ($attacker->tribe) {
             foreach ($attacker->tribe->tribeStats as $tribeStat) {
                 if ($tribeStat->statType->category === 'attack') {
-                    $attackPoints += $tribeStat->value;
+                    $attackPoints += $tribeStat->value * $terrainBoost[$tribeStat->statType->code];
                 }
             }
         }
@@ -43,7 +70,7 @@ class CharacterController extends Controller
         if ($defender->tribe) {
             foreach ($defender->tribe->tribeStats as $tribeStat) {
                 if ($tribeStat->statType->category === 'defense') {
-                    $defensePoints += $tribeStat->value;
+                    $defensePoints += $tribeStat->value * $terrainBoost[$tribeStat->statType->code];
                 }
             }
         }
@@ -95,7 +122,7 @@ class CharacterController extends Controller
     {
         $user = auth()->user();
         // Assume barrack: building code contains 'barrack', gold mine: code contains 'gold_mine'
-        $targets = \App\Models\User::where('id', '!=', $user->id)
+        $targets = User::where('id', '!=', $user->id)
             ->whereHas('userBuildings.building', function($q) {
                 $q->where('code', 'like', '%barrack%');
             })
@@ -135,7 +162,7 @@ class CharacterController extends Controller
      */
     public function dictionary()
     {
-        $tribes = \App\Models\Tribe::with(['tribeStats.statType'])->get();
+        $tribes = Tribe::with(['tribeStats.statType'])->get();
         return view('dictionary', compact('tribes'));
     }
     

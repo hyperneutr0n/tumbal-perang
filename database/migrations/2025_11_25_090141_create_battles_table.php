@@ -26,7 +26,6 @@ return new class extends Migration {
 
             $table->index('attacker_id');
             $table->index('defender_id');
-            $table->index('battle_time');
         });
     }
 
