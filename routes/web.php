@@ -28,7 +28,7 @@ Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']
 Route::middleware('auth')->group(function () {
         // Attack Routes
         Route::get('/attack', [CharacterController::class, 'attackList'])->name('attack.list');
-        Route::get('/attack/terrain', [CharacterController::class, 'getRandomTerrain'])->name('attack.list');
+        Route::get('/attack/terrain', [CharacterController::class, 'getRandomTerrain'])->name('attack.terrain');
         Route::post('/attack/{target}', [CharacterController::class, 'attackUser'])->name('attack.user');
         
         // Farm Gold Routes
