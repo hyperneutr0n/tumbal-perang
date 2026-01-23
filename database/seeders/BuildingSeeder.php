@@ -29,7 +29,7 @@ class BuildingSeeder extends Seeder
             'name' => 'Wall',
             'code' => 'wall',
             'price' => 300,
-            'description' => 'Increases defense by 10%',
+            'description' => 'Increases defense by 10',
             'is_unique' => false,
             'max_quantity' => null,
         ]);
@@ -38,7 +38,7 @@ class BuildingSeeder extends Seeder
             'key' => 'defense_bonus',
             'value' => '10',
             'data_type' => 'integer',
-            'description' => 'Defense percentage increase',
+            'description' => 'Defense point increase',
         ]);
 
         // Gold Mine Level 1

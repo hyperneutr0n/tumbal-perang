@@ -59,7 +59,11 @@ class SocialiteController extends Controller
                 $user = User::create($userData);
             }
             
-            Auth::login($user);
+            // Log the user in
+            Auth::login($user, true);
+            
+            // Regenerate session to prevent fixation and ensure auth persists
+            request()->session()->regenerate();
             
             Session::put('socialite_name', $socialiteUser->getName());
             

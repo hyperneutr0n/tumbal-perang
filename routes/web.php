@@ -27,32 +27,32 @@ Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']
 
 // Protected Routes (require authentication)
 Route::middleware('auth')->group(function () {
-        // Attack Routes
-        Route::get('/attack', [CharacterController::class, 'attackList'])->name('attack.list');
-        Route::get('/attack/terrain', [CharacterController::class, 'getRandomTerrain'])->name('attack.terrain');
-        Route::post('/attack/{target}', [CharacterController::class, 'attackUser'])->name('attack.user');
-        
-        // Farm Gold Routes
-        Route::get('/farm-gold', [CharacterController::class, 'farmGold'])->name('farm.gold');
-        Route::post('/farm-gold/farm', [CharacterController::class, 'farmAction'])->name('farm.action');
-        
-        // Dictionary Routes
-        Route::get('/dictionary', [CharacterController::class, 'dictionary'])->name('dictionary');
-        
+    // Attack Routes
+    Route::get('/attack', [CharacterController::class, 'attackList'])->name('attack.list');
+    Route::get('/attack/terrain', [CharacterController::class, 'getRandomTerrain'])->name('attack.terrain');
+    Route::post('/attack/{target}', [CharacterController::class, 'attackUser'])->name('attack.user');
+
+    // Farm Gold Routes
+    Route::get('/farm-gold', [CharacterController::class, 'farmGold'])->name('farm.gold');
+    Route::post('/farm-gold/farm', [CharacterController::class, 'farmAction'])->name('farm.action');
+
+    // Dictionary Routes
+    Route::get('/dictionary', [CharacterController::class, 'dictionary'])->name('dictionary');
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/character/create', [CharacterController::class, 'create'])->name('character.create');
     Route::post('/character', [CharacterController::class, 'store'])->name('character.store');
     Route::post('/add-gold', [CharacterController::class, 'addGold'])->name('add.gold');
     Route::post('/add-troops', [CharacterController::class, 'addTroops'])->name('add.troops');
-    
+
     // Store Routes
     Route::get('/store', [StoreController::class, 'index'])->name('store.index');
     Route::post('/store/purchase/{building}', [StoreController::class, 'purchase'])->name('store.purchase');
-    
+
     // Profile Routes
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    
+
     // Tribe Base Routes
     Route::get('/tribe-base', [TribeBaseController::class, 'index'])->name('tribe-base.index');
 });

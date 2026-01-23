@@ -92,7 +92,7 @@ class CharacterController extends Controller
         // Use troop count as multiplier (optional, can be adjusted)
         $attackTotal = $attackPoints + $attacker->troops;
         $defenseTotal = $defensePoints + $defender->troops;
-
+        dd($defensePoints, $defender->troops);
         $result = [];
         if ($attackTotal > $defenseTotal) {
             // Attacker wins: steal 90% of defender's gold
@@ -214,7 +214,7 @@ class CharacterController extends Controller
 
         $increment = (int) GameSetting::where('key', '=', 'default_gold_per_minute')
             ->first()->value;
-        $increment+=1000; //sek blm diubah
+
         $userBuildings = $user->userBuildings()->with('building.buildingEffects')->get();
 
         foreach ($userBuildings as $userBuilding) {
@@ -230,7 +230,7 @@ class CharacterController extends Controller
             }
         }
 
-        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 1) { //hrs e 5 or 5 * 60
+        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 60) {
             $user->increment('gold', $increment);
             $user->last_gold_update = $currentTime;
             $user->save();

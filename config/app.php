@@ -123,4 +123,15 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Trusted Proxies
+    |--------------------------------------------------------------------------
+    |
+    | Set to '*' to trust all proxies (useful for Cloudflare tunnel)
+    |
+    */
+
+    'trust_proxies' => env('TRUST_PROXIES'),
+
 ];

@@ -28,7 +28,8 @@ RUN composer install --optimize-autoloader --no-dev
 
 COPY --from=node_builder /app/public/build /app/public/build
 
-RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache /app/database
+RUN chmod -R 775 /app/database
 
 COPY .env.production /app/.env
 
