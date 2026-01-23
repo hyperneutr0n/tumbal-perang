@@ -14,46 +14,44 @@ class CharacterPartSeeder extends Seeder
      */
     public function run(): void
     {
+        // Clear existing character parts
+        CharacterPart::truncate();
+
         $tribes = Tribe::all();
 
         foreach ($tribes as $tribe) {
-            // Create default character parts for each tribe
+            $tribeLower = strtolower($tribe->name);
+            
+            // Create character parts matching the actual uploaded image files
             $parts = [
                 [
                     'part_type' => 'head',
                     'name' => $tribe->name . ' Head',
-                    'image_path' => 'assets/' . strtolower($tribe->name) . '/head_default.png',
+                    'image_path' => 'assets/' . $tribeLower . '/kepala.png',
                     'is_default' => true,
                 ],
                 [
                     'part_type' => 'body',
                     'name' => $tribe->name . ' Body',
-                    'image_path' => 'assets/' . strtolower($tribe->name) . '/body_default.png',
+                    'image_path' => 'assets/' . $tribeLower . '/badan.png',
                     'is_default' => true,
                 ],
                 [
                     'part_type' => 'arm',
-                    'name' => $tribe->name . ' Arm',
-                    'image_path' => 'assets/' . strtolower($tribe->name) . '/arm_default.png',
+                    'name' => $tribe->name . ' Arms',
+                    'image_path' => 'assets/' . $tribeLower . '/tangan.png',
                     'is_default' => true,
                 ],
                 [
                     'part_type' => 'leg',
-                    'name' => $tribe->name . ' Leg',
-                    'image_path' => 'assets/' . strtolower($tribe->name) . '/leg_default.png',
+                    'name' => $tribe->name . ' Legs',
+                    'image_path' => 'assets/' . $tribeLower . '/kaki.png',
                     'is_default' => true,
                 ],
             ];
 
             foreach ($parts as $part) {
-                CharacterPart::firstOrCreate(
-                    [
-                        'tribe_id' => $tribe->id,
-                        'part_type' => $part['part_type'],
-                        'is_default' => true,
-                    ],
-                    array_merge($part, ['tribe_id' => $tribe->id])
-                );
+                CharacterPart::create(array_merge($part, ['tribe_id' => $tribe->id]));
             }
         }
     }

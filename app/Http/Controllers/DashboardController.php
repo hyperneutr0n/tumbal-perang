@@ -8,7 +8,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $user = auth()->user()->load('tribe');
+        $user = auth()->user()->load(['tribe', 'head', 'body', 'arm', 'leg']);
         return view('dashboard', compact('user'));
     }
 }

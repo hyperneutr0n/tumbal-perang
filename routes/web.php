@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TribeBaseController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return redirect('dashboard');
@@ -47,6 +48,10 @@ Route::middleware('auth')->group(function () {
     // Store Routes
     Route::get('/store', [StoreController::class, 'index'])->name('store.index');
     Route::post('/store/purchase/{building}', [StoreController::class, 'purchase'])->name('store.purchase');
+    
+    // Profile Routes
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     
     // Tribe Base Routes
     Route::get('/tribe-base', [TribeBaseController::class, 'index'])->name('tribe-base.index');

@@ -38,14 +38,56 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           <!-- Left Side - Character Sprite -->
           <div class="flex flex-col items-center">
-            <!-- Character Sprite - Large Icon Placeholder -->
+            <!-- Character Sprite - Assembled Character -->
             <div
-              class="w-64 h-64 flex items-center justify-center bg-gradient-to-b from-blue-100 to-blue-50 rounded-lg mb-4">
-              <div class="text-9xl">👤</div>
+              class="w-64 h-80 flex items-center justify-center bg-gradient-to-b from-blue-100 to-blue-50 rounded-lg mb-4 p-6">
+              <div class="relative flex flex-col items-center justify-center" style="width: 160px; height: 256px;">
+                <!-- Head -->
+                <div class="flex justify-center mb-1">
+                  @if(auth()->user()->head && auth()->user()->head->image_path)
+                  <img src="{{ asset(auth()->user()->head->image_path) }}" alt="Head" class="w-16 h-16 object-contain">
+                  @else
+                  <div class="w-16 h-16 flex items-center justify-center text-4xl">👤</div>
+                  @endif
+                </div>
+                
+                <!-- Body with Arms -->
+                <div class="flex items-center justify-center gap-1 mb-1">
+                  <!-- Left Arm -->
+                  @if(auth()->user()->arm && auth()->user()->arm->image_path)
+                  <img src="{{ asset(auth()->user()->arm->image_path) }}" alt="Arm" class="w-12 h-16 object-contain">
+                  @else
+                  <div class="w-12 h-16"></div>
+                  @endif
+                  
+                  <!-- Body -->
+                  @if(auth()->user()->body && auth()->user()->body->image_path)
+                  <img src="{{ asset(auth()->user()->body->image_path) }}" alt="Body" class="w-16 h-20 object-contain">
+                  @else
+                  <div class="w-16 h-20 flex items-center justify-center text-4xl">👕</div>
+                  @endif
+                  
+                  <!-- Right Arm (mirrored) -->
+                  @if(auth()->user()->arm && auth()->user()->arm->image_path)
+                  <img src="{{ asset(auth()->user()->arm->image_path) }}" alt="Arm" class="w-12 h-16 object-contain transform scale-x-[-1]">
+                  @else
+                  <div class="w-12 h-16"></div>
+                  @endif
+                </div>
+                
+                <!-- Legs -->
+                <div class="flex justify-center">
+                  @if(auth()->user()->leg && auth()->user()->leg->image_path)
+                  <img src="{{ asset(auth()->user()->leg->image_path) }}" alt="Legs" class="w-16 h-20 object-contain">
+                  @else
+                  <div class="w-16 h-20 flex items-center justify-center text-4xl">👖</div>
+                  @endif
+                </div>
+              </div>
             </div>
 
             <!-- Edit Appearance Link -->
-            <a href="#" class="text-blue-600 hover:text-blue-800 underline text-sm">
+            <a href="{{ route('profile.edit') }}" class="text-blue-600 hover:text-blue-800 underline text-sm">
               Edit Profile
             </a>
           </div>
