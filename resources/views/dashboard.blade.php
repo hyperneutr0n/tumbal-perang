@@ -17,11 +17,11 @@
           <h1 class="text-2xl font-bold text-gray-800">Tumbal Perang</h1>
           <div class="flex gap-6">
             <a href="{{ route('dashboard') }}" class="text-blue-600 hover:text-blue-800 font-semibold">Dashboard</a>
-            <a href="{{ route('store.index') }}" class="text-blue-600 hover:text-blue-800">🏪 Store</a>
-            <a href="{{ route('tribe-base.index') }}" class="text-blue-600 hover:text-blue-800">🏰 Tribe Base</a>
-            <a href="{{ route('attack.list') }}" class="text-blue-600 hover:text-blue-800">⚔️ Attack</a>
-            <a href="{{ route('farm.gold') }}" class="text-blue-600 hover:text-blue-800">💰 Farm Gold</a>
-            <a href="{{ route('dictionary') }}" class="text-blue-600 hover:text-blue-800">📖 Dictionary</a>
+            <a href="{{ route('store.index') }}" class="text-blue-600 hover:text-blue-800">Store</a>
+            <a href="{{ route('tribe-base.index') }}" class="text-blue-600 hover:text-blue-800">Tribe Base</a>
+            <a href="{{ route('attack.list') }}" class="text-blue-600 hover:text-blue-800">Attack</a>
+            <a href="{{ route('farm.gold') }}" class="text-blue-600 hover:text-blue-800">Farm Gold</a>
+            <a href="{{ route('dictionary') }}" class="text-blue-600 hover:text-blue-800">Dictionary</a>
           </div>
 
         </div>
@@ -134,7 +134,7 @@
       </div>
 
       <script>
-        // Check for gold update every 30 seconds (backend handles 5-minute logic)
+  
         setInterval(async () => {
           try {
             const response = await fetch('{{ route('add.gold') }}', {
@@ -154,7 +154,6 @@
           }
         },5 * 1000);
 
-        // Check for troops update every second (for testing)
         setInterval(async () => {
           try {
             const response = await fetch('{{ route('add.troops') }}', {
@@ -172,7 +171,7 @@
           } catch (error) {
             console.error('Error adding troops:', error);
           }
-        }, 5 * 1000);
+        }, 60 * 1000); // Changed from 5 seconds to 60 seconds
       </script>
     </div>
   </div>

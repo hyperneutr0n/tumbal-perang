@@ -22,10 +22,10 @@
                 </div>
                 <div class="flex gap-4 items-center">
                     <a href="{{ route('dashboard') }}" class="text-blue-600 hover:text-blue-800">Dashboard</a>
-                    <a href="{{ route('tribe-base.index') }}" class="text-blue-600 hover:text-blue-800">🏰 Tribe Base</a>
-                    <a href="{{ route('attack.list') }}" class="text-blue-600 hover:text-blue-800">⚔️ Attack</a>
-                    <a href="{{ route('farm.gold') }}" class="text-blue-600 hover:text-blue-800">💰 Farm Gold</a>
-                    <a href="{{ route('dictionary') }}" class="text-blue-600 hover:text-blue-800">📖 Dictionary</a>
+                    <a href="{{ route('tribe-base.index') }}" class="text-blue-600 hover:text-blue-800">Tribe Base</a>
+                    <a href="{{ route('attack.list') }}" class="text-blue-600 hover:text-blue-800">Attack</a>
+                    <a href="{{ route('farm.gold') }}" class="text-blue-600 hover:text-blue-800">Farm Gold</a>
+                    <a href="{{ route('dictionary') }}" class="text-blue-600 hover:text-blue-800">Dictionary</a>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
                         <button type="submit" class="text-gray-600 hover:text-gray-900">Logout</button>

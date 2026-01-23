@@ -22,15 +22,15 @@ class StoreController extends Controller
     {
         $user = auth()->user();
         
-        // Check if user has enough gold
-        if ($user->gold < $building->price) {
+
+        if ($user->gold < $building->price) { //ada uang ngak user nya
             return response()->json([
                 'success' => false,
                 'message' => 'Not enough gold!'
             ], 400);
         }
         
-        // Check if building is unique and already owned
+
         if ($building->is_unique) {
             $exists = UserBuilding::where('user_id', $user->id)
                 ->where('building_id', $building->id)
@@ -44,7 +44,7 @@ class StoreController extends Controller
             }
         }
         
-        // Check max_quantity if set
+    
         if ($building->max_quantity) {
             $count = UserBuilding::where('user_id', $user->id)
                 ->where('building_id', $building->id)
@@ -60,10 +60,10 @@ class StoreController extends Controller
         
         DB::beginTransaction();
         try {
-            // Deduct gold
+        
             $user->decrement('gold', $building->price);
             
-            // Add building to user
+        
             UserBuilding::create([
                 'user_id' => $user->id,
                 'building_id' => $building->id,

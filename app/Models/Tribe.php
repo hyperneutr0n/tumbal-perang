@@ -17,25 +17,19 @@ class Tribe extends Model
         'troops_per_minute' => 'integer',
     ];
 
-    /**
-     * Get the tribe stats for this tribe.
-     */
+
     public function tribeStats(): HasMany
     {
         return $this->hasMany(TribeStat::class);
     }
 
-    /**
-     * Get the users that belong to this tribe.
-     */
+   
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }
 
-    /**
-     * Get the character parts for this tribe.
-     */
+   
     public function characterParts(): HasMany
     {
         return $this->hasMany(CharacterPart::class);

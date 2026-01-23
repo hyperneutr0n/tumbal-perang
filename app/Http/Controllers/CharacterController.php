@@ -122,13 +122,11 @@ class CharacterController extends Controller
         return response()->json($result);
     }
 
-    /**
-     * Show list of attackable users (must have at least one barrack and one gold mine)
-     */
+    
     public function attackList()
     {
         $user = auth()->user();
-        // Assume barrack: building code contains 'barrack', gold mine: code contains 'gold_mine'
+        //cek ada barrack dan gold mine?
         $targets = User::where('id', '!=', $user->id)
             ->whereHas('userBuildings.building', function($q) {
                 $q->where('code', 'like', '%barrack%');
@@ -141,18 +139,14 @@ class CharacterController extends Controller
         return view('attack-list', compact('targets'));
     }
     
-    /**
-     * Show farm gold page
-     */
+
     public function farmGold()
     {
         $user = auth()->user();
         return view('farm-gold', compact('user'));
     }
     
-    /**
-     * Farm action - add 1 gold to user
-     */
+  //autocliiiiiiiiiiiiiiiick
     public function farmAction(Request $request)
     {
         $user = auth()->user();
@@ -164,27 +158,21 @@ class CharacterController extends Controller
         ]);
     }
     
-    /**
-     * Show dictionary page with all tribe stats
-     */
+
     public function dictionary()
     {
         $tribes = Tribe::with(['tribeStats.statType'])->get();
         return view('dictionary', compact('tribes'));
     }
     
-    /**
-     * Show character selection/creation page for first-time users
-     */
+
     public function create()
     {
         $tribes = Tribe::all();
         return view('character.create', compact('tribes'));
     }
 
-    /**
-     * Store the selected character
-     */
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -194,13 +182,12 @@ class CharacterController extends Controller
 
         $user = Auth::user();
 
-        // Get default character parts for the selected tribe
         $defaultParts = CharacterPart::where('tribe_id', $validated['tribe_id'])
             ->where('is_default', true)
             ->get()
             ->keyBy('part_type');
 
-        // Update user with username, tribe, starting resources, and default character parts
+    
         $user->update([
             'username' => $validated['username'],
             'tribe_id' => $validated['tribe_id'],
@@ -217,9 +204,7 @@ class CharacterController extends Controller
         return redirect()->route('dashboard');
     }
 
-    /**
-     * Add gold to the authenticated user (5 gold every 5 minutes)
-     */
+    
     public function addGold(Request $request)
     {
         $user = auth()->user();
@@ -227,16 +212,13 @@ class CharacterController extends Controller
         $lastUpdate = $user->last_gold_update;
         $currentTime = now();
 
-
-        // Get base gold increment from game settings
         $increment = (int) GameSetting::where('key', '=', 'default_gold_per_minute')
             ->first()->value;
-        $increment+=1000;
-        // Add gold from user's buildings
+        $increment+=1000; //sek blm diubah
         $userBuildings = $user->userBuildings()->with('building.buildingEffects')->get();
 
         foreach ($userBuildings as $userBuilding) {
-            // Find gold generation effect for this building
+            
             $goldEffect = $userBuilding->building->buildingEffects
                 ->filter(function ($effect) {
                     return str_starts_with($effect->key, 'gold_production');
@@ -248,8 +230,7 @@ class CharacterController extends Controller
             }
         }
 
-        // Only add gold if 5 minutes have passed or if this is the first update
-        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 1) {
+        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 1) { //hrs e 5 or 5 * 60
             $user->increment('gold', $increment);
             $user->last_gold_update = $currentTime;
             $user->save();
@@ -275,11 +256,10 @@ class CharacterController extends Controller
         $increment = 0;
         $currentTime = now();
 
-        // Add troop from user's buildings
         $userBuildings = $user->userBuildings()->with('building.buildingEffects')->get();
 
         foreach ($userBuildings as $userBuilding) {
-            // Find all troop generation effects for this building
+      
             $troopEffects = $userBuilding->building->buildingEffects
                 ->filter(function ($effect) {
                     return str_starts_with($effect->key, 'troops_production');
@@ -290,18 +270,19 @@ class CharacterController extends Controller
             }
         }
         
-        // Only add troops if 1 second has passed or if this is the first update (for testing)
-        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 1) {
-            $increment+=1000;
-            $user->increment('troops', $increment);
-            $user->last_troop_update = $currentTime;
-            $user->save();
+        if (!$lastUpdate || $lastUpdate->diffInSeconds($currentTime) >= 60) {
+         
+            if ($increment > 0) {
+                $user->increment('troops', $increment);
+                $user->last_troop_update = $currentTime;
+                $user->save();
 
-            return response()->json([
-                'success' => true,
-                'troops' => $user->troops,
-                'increment' => $increment
-            ]);
+                return response()->json([
+                    'success' => true,
+                    'troops' => $user->troops,
+                    'increment' => $increment
+                ]);
+            }
         }
 
         return response()->json([

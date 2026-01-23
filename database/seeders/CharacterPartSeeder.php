@@ -14,15 +14,13 @@ class CharacterPartSeeder extends Seeder
      */
     public function run(): void
     {
-        // Clear existing character parts
         CharacterPart::truncate();
 
         $tribes = Tribe::all();
 
         foreach ($tribes as $tribe) {
             $tribeLower = strtolower($tribe->name);
-            
-            // Create character parts matching the actual uploaded image files
+        
             $parts = [
                 [
                     'part_type' => 'head',

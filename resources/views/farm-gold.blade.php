@@ -17,11 +17,11 @@
                     <h1 class="text-2xl font-bold text-gray-800">Tumbal Perang</h1>
                     <div class="flex gap-6">
                         <a href="{{ route('dashboard') }}" class="text-blue-600 hover:text-blue-800">Dashboard</a>
-                        <a href="{{ route('store.index') }}" class="text-blue-600 hover:text-blue-800">🏪 Store</a>
-                        <a href="{{ route('tribe-base.index') }}" class="text-blue-600 hover:text-blue-800">🏰 Tribe Base</a>
-                        <a href="{{ route('attack.list') }}" class="text-blue-600 hover:text-blue-800">⚔️ Attack</a>
-                        <a href="{{ route('farm.gold') }}" class="text-blue-600 hover:text-blue-800 font-semibold">💰 Farm Gold</a>
-                        <a href="{{ route('dictionary') }}" class="text-blue-600 hover:text-blue-800">📖 Dictionary</a>
+                        <a href="{{ route('store.index') }}" class="text-blue-600 hover:text-blue-800">Store</a>
+                        <a href="{{ route('tribe-base.index') }}" class="text-blue-600 hover:text-blue-800">Tribe Base</a>
+                        <a href="{{ route('attack.list') }}" class="text-blue-600 hover:text-blue-800">Attack</a>
+                        <a href="{{ route('farm.gold') }}" class="text-blue-600 hover:text-blue-800 font-semibold">Farm Gold</a>
+                        <a href="{{ route('dictionary') }}" class="text-blue-600 hover:text-blue-800">Dictionary</a>
                     </div>
                 </div>
                 <form method="POST" action="{{ route('logout') }}" class="inline">
@@ -69,16 +69,12 @@
                 });
 
                 const data = await response.json();
-                if (data.success) {
-                    // Update gold display
-                    document.getElementById('gold-display').textContent = data.gold;
-                    
-                    // Show success message
+                if (data.success) {                  
+                    document.getElementById('gold-display').textContent = data.gold;//update display
                     const messageEl = document.getElementById('message');
                     messageEl.textContent = '+1 Gold earned!';
                     messageEl.classList.remove('hidden');
-                    
-                    // Hide message after 1 second
+
                     setTimeout(() => {
                         messageEl.classList.add('hidden');
                     }, 1000);
